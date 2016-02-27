@@ -20,11 +20,13 @@ class MoviesController < ApplicationController
       @highlightt= 'hilite'
       @highlightd = 'nothing'
       @movies = Movie.order(params[:sort_by])
-    elsif (params[:sort_by] == "release_date")
+    else (params[:sort_by] == "release_date" && !params[:sort_by].empty?)
       @highlightd= 'hilite'
       @highlightt = 'nothing'
       @movies = Movie.order(params[:sort_by])
     end
+#    @movies = Movie.all
+    
     
     
   end
