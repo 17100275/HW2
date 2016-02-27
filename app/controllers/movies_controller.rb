@@ -12,11 +12,21 @@ class MoviesController < ApplicationController
 
   def index
     
+    @highlightt = 'nothing'
+    @highlightd = 'nothing'
+    
+    ## sorting lists
     if (params[:sort_by] == "title")
+      @highlightt= 'hilite'
+      @highlightd = 'nothing'
       @movies = Movie.order(params[:sort_by])
     elsif (params[:sort_by] == "release_date")
+      @highlightd= 'hilite'
+      @highlightt = 'nothing'
       @movies = Movie.order(params[:sort_by])
     end
+    
+    
   end
 
   def new
