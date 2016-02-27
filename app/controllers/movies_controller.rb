@@ -10,6 +10,38 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
+  def up
+    #@movie = Movie.find params[:id]
+  end
+  
+  def up2
+    x=params.require(:movie).permit(:title1,:title, :rating, :release_date)
+    title1=x[:title1]
+    title=x[:title]
+    rating=x[:rating]
+    release_date=x[:release_date]
+    
+    @movie=Movie.find_by title: title1
+#    puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+#    puts "#{x} dlkfal;sdkfl;askdl;fkal;sdklf;askld;fkl;askdl;fkal;s"
+    
+    if @movie
+      #@movie.update_attributes!(movie_params)
+      if title != ""
+        @movie.update_attribute(:title,title)
+      end
+      if rating != ""
+        @movie.update_attribute(:rating,rating)
+      end
+      if release_date != ""
+        @movie.update_attribute(:release_date,release_date)
+      end
+      redirect_to movie_path(@movie)
+      return
+    end
+    redirect_to movies_path  
+  end
+  
   def index
     
     @highlightt = 'nothing'
@@ -26,12 +58,10 @@ class MoviesController < ApplicationController
       @movies = Movie.order(params[:sort_by])
     end
 #    @movies = Movie.all
-    
-    
-    
   end
 
   def new
+
     # default: render 'new' template
   end
 
@@ -45,6 +75,7 @@ class MoviesController < ApplicationController
     @movie = Movie.find params[:id]
   end
 
+  
   def update
     @movie = Movie.find params[:id]
     @movie.update_attributes!(movie_params)

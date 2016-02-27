@@ -1,0 +1,19 @@
+-# up.html.haml using partial
+
+%h1 UPdating Movie
+
+= form_tag movies_path(@movie), :method =>:put do
+
+  = label :movie, :title1, 'Movie to update'
+  = text_field :movie, 'title1'
+
+  = label :movie, :title, 'Title'
+  = text_field :movie, 'title'
+
+  = label :movie, :rating, 'Rating'
+  = text_field  :movie, 'rating'
+
+  = label :movie, :release_date, 'Released On'
+  = text_field  :movie, 'release_date'
+
+  = submit_tag 'Update Changes'
