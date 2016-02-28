@@ -4,25 +4,29 @@ class MoviesController < ApplicationController
     params.require(:movie).permit(:title, :rating, :description, :release_date)
   end
 
+
+
   def show
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
   end
 
+#################################################################################update
   def up
     #@movie = Movie.find params[:id]
   end
   
   def up2
     x=params.require(:movie).permit(:title1,:title, :rating, :release_date)
+    
     title1=x[:title1]
     title=x[:title]
     rating=x[:rating]
     release_date=x[:release_date]
     
     @movie=Movie.find_by title: title1
-#    puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 #    puts "#{x} dlkfal;sdkfl;askdl;fkal;sdklf;askld;fkl;askdl;fkal;s"
     
     if @movie
@@ -39,9 +43,34 @@ class MoviesController < ApplicationController
       redirect_to movie_path(@movie)
       return
     end
-    redirect_to movies_path  
+#    redirect_to movies_path  
   end
   
+################################################################################update
+################################################################################delete
+  def del
+    
+  end
+  def del2
+    x=params.require(:movie).permit(:title, :rating)
+    title=x[:title]
+    rating=x[:rating]
+    if title != nil
+      @movie = Movie.find_by title: title
+      @movie.destroy
+      redirect_to movies_path
+
+    elsif rating != nil
+      puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      Movie.where(rating: rating).each {|k| k.destroy }
+      redirect_to movies_path
+
+    end
+  end
+
+################################################################################delete
+
+################################################################################index
   def index
     
     @highlightt = 'nothing'
@@ -59,6 +88,10 @@ class MoviesController < ApplicationController
     end
 #    @movies = Movie.all
   end
+################################################################################index
+
+
+
 
   def new
 

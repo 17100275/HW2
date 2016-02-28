@@ -1,0 +1,21 @@
+-# up.html.haml using partial
+
+%h1 Delete Movie by Title
+
+= form_tag movies_delete_path(@movie), :method =>:put do
+
+  = label :movie, :title, 'Title'
+  = text_field :movie, 'title'
+
+  = submit_tag 'Delete Movie'
+
+%h1 Delete Movie by Rating
+
+= form_tag movies_delete_path(@movie), :method =>:put do
+
+  = label :movie, :rating, 'Rating'
+  = text_field  :movie, 'rating'
+
+  = submit_tag 'Delete Movie'
+
+= link_to 'Back to movie list', movies_path

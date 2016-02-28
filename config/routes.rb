@@ -2,7 +2,11 @@ Rails.application.routes.draw do
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
   get 'movies/update'=>'movies#up'
+  get 'movies/delete'=>'movies#del'
+
   put 'movies(.:format)'=>'movies#up2'
+  put 'movies/delete(.:format)'=> 'movies#del2'
+  
   # You can have the root of your site routed with "root"
   root 'movies#index'
   # Example of regular route:
