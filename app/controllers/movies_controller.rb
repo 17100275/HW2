@@ -72,26 +72,52 @@ class MoviesController < ApplicationController
 
 ################################################################################index
   def index
-    x=params[:ratings]
+#    x=params[:ratings]
 #    puts "#{x.keys} fkals;dkf;lasdk;flaksdl;"
-
-    @ratings = x.keys
+    
     @all_ratings = ['G','PG','PG-13','R']
     @highlightt = 'nothing'
     @highlightd = 'nothing'
+ 
     
-    if x
+    if params[:ratings]
+      session[:r] = params[:ratings]
+    end
+    
+    if params[:sort_by]
+      session[:s] = params[:sort_by]
+    end
+
+    x=session[:r]
+    x2=session[:s]
+    
+       
+    if x && x2
+      if x2=='title'
+        
+        @highlightt= 'hilite'
+        @highlightd = 'nothing'
+      elsif x2=='release_date'
+        @highlightd= 'hilite'
+        @highlightt = 'nothing'
+      end
+        
+      @ratings = x.keys
+      @movies = Movie.where("rating IN (?)", @ratings).order(x2) 
+      
+    elsif x
+      @ratings = x.keys
       @movies = Movie.where("rating IN (?)", @ratings)
 
     ## sorting lists
-    elsif (params[:sort_by] == "title")
+    elsif (x2 == "title")
       @highlightt= 'hilite'
       @highlightd = 'nothing'
-      @movies = Movie.order(params[:sort_by])
-    else (params[:sort_by] == "release_date" && !params[:sort_by].empty?)
+      @movies = Movie.order(x2)
+    else (x2 == "release_date" && !x2.empty?)
       @highlightd= 'hilite'
       @highlightt = 'nothing'
-      @movies = Movie.order(params[:sort_by])
+      @movies = Movie.order(x2)
     end
 #    @movies = Movie.all
   end
