@@ -26,7 +26,7 @@ class MoviesController < ApplicationController
     release_date=x[:release_date]
     
     @movie=Movie.find_by title: title1
-    puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+#    puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 #    puts "#{x} dlkfal;sdkfl;askdl;fkal;sdklf;askld;fkl;askdl;fkal;s"
     
     if @movie
@@ -61,7 +61,7 @@ class MoviesController < ApplicationController
       redirect_to movies_path
 
     elsif rating != nil
-      puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    #  puts "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
       Movie.where(rating: rating).each {|k| k.destroy }
       redirect_to movies_path
 
@@ -72,12 +72,19 @@ class MoviesController < ApplicationController
 
 ################################################################################index
   def index
-    
+    x=params[:ratings]
+#    puts "#{x.keys} fkals;dkf;lasdk;flaksdl;"
+
+    @ratings = x.keys
+    @all_ratings = ['G','PG','PG-13','R']
     @highlightt = 'nothing'
     @highlightd = 'nothing'
     
+    if x
+      @movies = Movie.where("rating IN (?)", @ratings)
+
     ## sorting lists
-    if (params[:sort_by] == "title")
+    elsif (params[:sort_by] == "title")
       @highlightt= 'hilite'
       @highlightd = 'nothing'
       @movies = Movie.order(params[:sort_by])
